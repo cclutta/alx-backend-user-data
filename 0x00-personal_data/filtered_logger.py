@@ -68,3 +68,33 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user=user,
         password=password,
         database=dbname)
+
+
+if __name__ == "__main__"
+    db = get_db()
+    cursor = db.cursor()
+
+    query = "SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS\
+            WHERE TABLE_SCHEMA = 'my_db' AND TABLE_NAME = 'users';"
+    cursor.execute(query)
+
+    for row in cursor:
+        keys = row[0]
+
+    keys = keys.split(',')
+
+    cursor.execute("SELECT * FROM users;")
+    for row in cursor:
+        to_join = [f'{k}={v}' for k, v in zip(keys, row)]
+        message = "; ".join(to_join)
+        message += ';'
+        log_record = logging.LogRecord("user_data", logging.INFO, None, None,
+                                       message, None, None)
+
+        formatter = RedactingFormatter(fields=("name", "email", "phone", "ssn",
+                                               "password"))
+
+        print(formatter.format(log_record))
+
+    cursor.close()
+    db.close()
