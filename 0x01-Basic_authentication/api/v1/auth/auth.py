@@ -10,12 +10,17 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Require auth method. """
-        require = False
+
+        
+        if path and not path.endswith("/"):
+            path += "/"
+        if excluded_paths is None or len(excluded_paths) == 0:
+            return True
         if path is None:
-            require = True
-        if len(excluded_paths) == 0 or excluded_paths is None:
-            require = True
-        return require
+             return True
+        if path not in excluded_paths:
+            return True
+        return False
 
     def authorization_header(self, request=None) -> str:
         """ Authorization method. """
