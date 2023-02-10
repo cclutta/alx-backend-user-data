@@ -5,7 +5,7 @@
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login_user() -> str:
-    """ POST /api/v1/auth_session/login. """
+    """ POST /api/v1/auth_session/login. Logins user """
     email = request.form.get('email', default=None)
     password = request.form.get('password', default=None)
 
@@ -36,7 +36,7 @@ def login_user() -> str:
 @app_views.route('/auth_session/logout',
                  methods=['DELETE'], strict_slashes=False)
 def logout_user() -> str:
-    """ DELETE /api/v1/auth_session/logout. """
+    """ DELETE /api/v1/auth_session/logout. Logs out """
     from api.v1.app import auth
     if auth.destroy_session(request):
         return jsonify({}), 200
