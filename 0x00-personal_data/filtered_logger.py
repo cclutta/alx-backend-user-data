@@ -70,7 +70,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=dbname)
 
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     db = get_db()
     cursor = db.cursor()
 
